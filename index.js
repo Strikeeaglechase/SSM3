@@ -1296,23 +1296,12 @@ function mainLoop() {
 
 //Called once when the server first starts up.  Starts everything
 function startServer() {
-	if ((process.argv[2] == 'help' || !process.argv[2]) && useCommandLine) {
-		console.log('node index.js {local,online} [shutdownKey] [port]');
-		process.exit(0);
-	}
-	var local = process.argv[2] == 'local';
-	var shutdownK = process.argv[3] || 'q';
-	var port = process.argv[4] || 8000;
-	if (local) {
-		initServer('localhost', port);
-	} else {
-		var ip = ipGetter.address();
-		console.log('Connect to: http://' + ip + ':8000/');
-		initServer(ip, port);
-	}
-	if (useCommandLine) {
-		bindShutdownKey(shutdownK);
-	}
+	var port = 8001;
+	var ip = ipGetter.address();
+	
+	console.log('Connect to: http://%s:%s/', ip, port);
+	initServer(ip, port);
+	
 	netInit();
 	Maps.forEach(map => map.data.id = newID(false));
 	log(0, 'Map id\'s set');
